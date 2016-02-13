@@ -13,31 +13,34 @@ true.hashCode()
 2.+(2)
 
 
-// Da diese Form doch etwas hakelig ist, erlaubt Scala Punkte und Klammern weg zu lassen.
-// Der Compiler schafft es in den meisten Fällen die Reihenfolge der Argumente aufzulösen
+// Da die obere Form doch etwas hakelig ist, erlaubt Scala Punkte und Klammern bei Aufrufen weg zu lassen.
+// Der Compiler schafft es in den meisten Fällen die Reihenfolge der Argumente aufzulösen, wodurch dann auch wieder
+// eine lesbare Form für die Addition entsteht.
 2 + 2
 2 equals 5
 
 
-// Value equality und reference equality ist in Scala genau andersrum wie in Java.
+// Wenn Objekte verglichen werden, so bietet '==' einen Wertevergleich an und
+// die Methode 'eq' einen Referenzvergleich. Kommt man von Java, so kennt man diese Operatoren
+// genau entgegengesetzt und hatte sicher schon seine liebe Mühe mit den == Vergleichen von Objekten.
 var l = List(1, 2, 3)
 var ll = List(1, 2, 3)
 
-l == ll   // Macht einen Wertevergleich
-l eq ll   // Macht einen Referenzvergleich
+l == ll   // Macht einen Wertevergleich (hier true)
+l eq ll   // Macht einen Referenzvergleich (hier false)
 
 
 /*****************
  * VALs und VARs
  *****************/
 // Eine benannte Variable lässt sich mit 'var', dem Namen der Variable plus dem Typ
-// nach einem Doppelpunkt definieren. Eine Wertinitialisierung ist dabei erforderlich.
-// Variablen sind, wie der Name bereits sagt, mutable und können im Laufe andere Werte annehmen.
+// nach einem Doppelpunkt definieren. Eine Wertinitialisierung ist immer erforderlich.
+// Variablen sind, wie der Name bereits sagt, veränderbar (mutable) und können über die Zeit andere Werte annehmen.
 var y: String = "This is a var"
 y = "Another value"
 
 
-// Im Gegensatz zu variables, definieren values eine immutable reference, äquivalent zu final
+// Im Gegensatz zu Variablen, definieren values eine immutable reference, äquivalent zu final
 // Variablen in Java. Best practise ist hier: So viel vals wie möglich, so viel vars wie nötig.
 // Vor allem wenn man im nebenläufigen Umfeld unterwegs ist, was bei Scala schnell passieren kann.
 val x: String = "hello world"
@@ -47,3 +50,5 @@ val x: String = "hello world"
 // zu verkürzen. Bei vals und vars können wir den Typ weg lassen. Trotzdem haben die Bezeichner
 // einen Typ. Der Compiler ermittelt den Typ implizit über den Initialisierungswert.
 val xx = "hello other world"
+
+// xx = 12 <-- Das geht nicht! xx ist vom Typ String.

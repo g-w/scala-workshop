@@ -3,7 +3,7 @@
  ***********************************/
 
 // Funktionen verhalten sich in ihrer Grundform genauso wie Methoden. Sie haben Eingabeparameter und einen
-// Returntype.
+// Rückgabewert.
 // Zusätzlich sind Funktionen aber auch so genannte first class citizens. Also Objekte, die genauso
 // wie ein String, ein Array oder ein komplexes Objekt referenziert und z.B. als Parameter übergeben
 // werden können.
@@ -24,13 +24,6 @@
 // Wollen wir nun eine Funktion referenzieren, so können wir dies wie jede andere Variablendefinition machen.
 // Der Typ einer Funktion sieht dabei so ähnlich aus, wie ihre Definition und mag am Anfang ein wenig verwirren.
 
-// In diesem Beispiel ist der Name des Value 'g'.
-// Der Typ des Value ist '(Int, Int) => Int' - Sprich: Int und Int auf Int.
-// Dieser Typ beschreibt alle Funktionen, welche zwei Int Parameter und als Rückgabetyp wiederum Int besitzen.
-// Die Zuweisung ist nun die eigentliche Funktion mit zwei benannten Parametern (x und y) und einem Funktionskörper,
-// der diese beiden Parameter addiert. Möglich ist hier auch eine Multiplikation oder jede andere denkbare
-// Transformation, die wiederum ein Int zurück gibt.
-
 val g: (Int, Int) => Int   =   (x: Int, y: Int) => { x+y }
 //     |                |      |                         |
 //     +----------------+      +-------------------------+
@@ -39,31 +32,46 @@ val g: (Int, Int) => Int   =   (x: Int, y: Int) => { x+y }
 //                               |
 //                               function definition
 
+// In diesem Beispiel ist der Name des Value 'g'.
+// Der Typ des Value ist '(Int, Int) => Int' - Sprich: Int und Int auf Int.
+// Dieser Typ beschreibt alle Funktionen, welche zwei Int Parameter und als Rückgabetyp wiederum Int besitzen.
+// Die Zuweisung ist nun die eigentliche Funktion mit zwei benannten Parametern (x und y) und einem Funktionskörper,
+// der diese beiden Parameter addiert. Möglich ist hier auch eine Multiplikation oder jede andere denkbare
+// Transformation, die wiederum ein Int zurück gibt.
 
-// Auch hier müssen wir nicht jedesmal den Typ angeben oder Klammern setzen.
+// Die Funktion ist nun über den Namen 'g' referenzier- und dadurch auch direkt aufrufbar:
+g(1, 2)
+
+
+// Auch bei Funktionen müssen wir nicht jedesmal den Typ angeben oder Klammern setzen.
 // Gerade bei Funktionen macht die explizite Angabe des Typs den Code mitunter unübersichtlicher.
-// Allerdings können wir die Typen der Parameter hier nicht weg lassen. Der Compile muss irgendwie
-// immer den Typ der Funktion ermitteln können.
-val gg = (x: Int, y: Int) => x+y
+// Allerdings können wir nicht alle Typdefinitionen weg lassen. Der Compile muss immer den Typ
+// der Funktion ermitteln können.
 
-// Die Funktion ist nun über den Namen 'gg' referenzierbar und dadurch auch direkt aufrufbar:
-gg(1, 2)
+val h = (x: Int, y: Int) => x+y   // Durch die Parameter und die Operation sind alle Typen bekannt
+
+val i: (Int, Int) => Int  =  (x, y) => x+y  // Durch den expliziten Typ des Values, brauchen wir die Typen der Parameter
+                                            // nicht mehr mit angeben. Diese sind implizit bekannt.
+
 
 
 
 /**********************************
  * HIGHER ORDER FUNCTIONS/METHODS
  **********************************/
-// Eine Higher order function ist eine Funktion, die wiederum eine Funktion als Parameter übergeben bekommen und/oder
+// Eine Higher order function ist eine Funktion, die wiederum eine Funktion als Parameter übergeben bekommt und/oder
 // eine Funktion zurück gibt. Nicht nur allein Funktionen können so benutzt werden, sondern auch Methoden. Hier sind
-// beide wieder äquivalent
+// beide wieder äquivalent.
 
 // Diese Methode hat zwei Parameter. Einmal x vom Typ 'Int' und f vom Typ 'Int => Int'.
-// Zusätzlich definieren wir eine Funktion, die unserem Parametertyp entspricht und benutzen sie
+// Zusätzlich definieren wir eine Funktion, die unserem Parametertyp von f entspricht und benutzen sie
 // als zweiten Parameter für 'makeSomethingWithInt'
+
 def makeSomethingWithInt(x: Int, f: (Int) => Int): Int = f(x)
+
 val twoTimes = (x: Int) => x * 2
 makeSomethingWithInt(42, twoTimes)
+
 
 // Genauso können wir auch eine Methode dazu benutzen uns eine neue Funktion zu erzeugen.
 // 'createNTimes' bekommt als Parameter ein Int 'times' und erzeugt daraus eine Funktion, deren
@@ -71,6 +79,7 @@ makeSomethingWithInt(42, twoTimes)
 def createNTimes(times: Int): (Int) => Int = {
   (x: Int) => times * x
 }
+
 val threeTimes: (Int) => Int = createNTimes(3)
 makeSomethingWithInt(42, threeTimes)
 
@@ -80,7 +89,7 @@ makeSomethingWithInt(42, threeTimes)
  ***********/
 // In vielen Fällen brauchen wir eine Funktion nur genau einmal. Uns reicht also aus, wenn eine Funktionsdefinition
 // anonym direkt als Parameter übergeben wird. Dies ist auch als anonymous function oder lambda expression bekannt.
-// In den folgenden Beispielen wird immer wieder dieselbe anonyme Funktion übergeben der Methode 'makeSomethingWithInt'
+// In den folgenden Beispielen wird immer wieder dieselbe anonyme Funktion der Methode 'makeSomethingWithInt'
 // übergeben. Dabei lassen wir aber nach und nach nicht notwendigen Klammern oder Typen weg. Dadurch lassen sich
 // Lambdas sehr effizient schreiben.
 
@@ -90,13 +99,13 @@ makeSomethingWithInt(8, (x: Int) => {
 })
 
 // Der Codeblock ist ein Einzeiler, daher können wir die {}-Klammern weg lassen.
-makeSomethingWithInt(8, (x: Int) => x * 2) // long
+makeSomethingWithInt(8, (x: Int) => x * 2)
 
 // Der Compiler weiß anhand des Parametertyps von 'makeSomethingWithInt' bereits das x ein Int sein muss.
-// Daher können wir den Typ im Lambda weglassen
-makeSomethingWithInt(8, (x) => x * 2) // short
+// Daher können wir auch den Typ im Lambda weglassen.
+makeSomethingWithInt(8, (x) => x * 2)
 
-// Die () - Klammern brauchen wir nun auch nicht mehr
+// Die () - Klammern brauchen wir nun auch nicht mehr.
 makeSomethingWithInt(8, x => x * 2) // shorter
 
 // Die kürzeste Form eines Lambdas besteht nur noch aus Funktionsblock und den Wildcardszeichen _

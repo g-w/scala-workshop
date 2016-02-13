@@ -3,12 +3,12 @@ import scala.annotation.tailrec
  * METHODS
  ************************/
 
-// Methoden funktionieren in Scala gleich wie in Java. Sie besitzen einen Namen,
+// Methoden funktionieren in Scala genauso wie in Java. Sie besitzen einen Namen,
 // haben keinen bis mehere Eingabeparameter und keinen oder einen Rückgabewert.
 //
 //                             method block
 //                             |
-//                           Gleichheitszeichen
+//                           Gleichheitszeichen(vergisst man leicht)
 //                           | |
 //                        return type
 //                        |  | |
@@ -19,7 +19,7 @@ import scala.annotation.tailrec
 //   |  |       |         |  | |
 def sum(x: Int, y: Int): Int = {
   val z = x + y
-  z // The last expression is always the return value
+  z // Der letzte Ausdruck eines Methodenblocks ist immer auch der Rückgabewert.
 }
 
 // Auch bei Methoden können wir die Schreibweise ein wenig verkürzen.
@@ -27,14 +27,14 @@ def sum(x: Int, y: Int): Int = {
 // Auch der Returntype kann vom Compiler implizit ermittelt werden.
 
 // Achtung: Natürlich kann man manche Sachen weg lassen, allerdings macht es das für einen
-// Nutzer der Methode nicht einfacher sie zu verstehen. Als best practise kann man nehmen:
+// Nutzer der Methode nicht unbedingt einfacher sie zu verstehen. Als best practise kann man nehmen:
 // Öffentliche Methoden so explizit wie möglich halten.
 def sum2(x: Int, y: Int) = x + y
 
 
 // Auch wenn Methoden möglichst seiteneffektlos sein und einen Returntype haben sollten,
 // so ist natürlich auch der leere Returntype möglich. Was in Java und C das void, ist in Scala
-// das Unit.
+// die Klasse Unit.
 def print(x: String): Unit = {
   println(x)
 }
