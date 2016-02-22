@@ -34,8 +34,8 @@ val g: (Int, Int) => Int   =   (x: Int, y: Int) => { x+y }
 
 // In diesem Beispiel ist der Name des Value 'g'.
 // Der Typ des Value ist '(Int, Int) => Int' - Sprich: Int und Int auf Int.
-// Dieser Typ beschreibt alle Funktionen, welche zwei Int Parameter und als Rückgabetyp wiederum Int besitzen.
-// Die Zuweisung ist nun die eigentliche Funktion mit zwei benannten Parametern (x und y) und einem Funktionskörper,
+// Dieser Typ beschreibt alle Funktionen, welche zwei Int Parameter und als Rückgabetyp wiederum ein Int besitzen.
+// Der Wert ist nun die eigentliche Funktion mit zwei benannten Parametern (x und y) und einem Funktionskörper,
 // der diese beiden Parameter addiert. Möglich ist hier auch eine Multiplikation oder jede andere denkbare
 // Transformation, die wiederum ein Int zurück gibt.
 
@@ -69,7 +69,7 @@ val i: (Int, Int) => Int  =  (x, y) => x+y  // Durch den expliziten Typ des Valu
 
 def makeSomethingWithInt(x: Int, f: (Int) => Int): Int = f(x)
 
-val twoTimes = (x: Int) => x * 2
+val twoTimes = (value: Int) => value * 2
 makeSomethingWithInt(42, twoTimes)
 
 
@@ -108,7 +108,7 @@ makeSomethingWithInt(8, (x) => x * 2)
 // Die () - Klammern brauchen wir nun auch nicht mehr.
 makeSomethingWithInt(8, x => x * 2) // shorter
 
-// Die kürzeste Form eines Lambdas besteht nur noch aus Funktionsblock und den Wildcardszeichen _
+// Die kürzeste Form eines Lambdas besteht nur noch aus Funktionsblock und den Wildcardzeichen _
 // Jedes _ steht dabei für einen Parameter aus der Parameterliste, wobei jedes Wildcard nur genau einmal
 // benutzt werden kann. Diese Syntax sollte explizit sehr kurzen Funktionen vorbehalten bleiben. Ansonsten droht
 // ein nicht zu vernachlässigender Übersichtsverlust.
