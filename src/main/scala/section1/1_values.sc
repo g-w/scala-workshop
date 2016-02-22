@@ -6,6 +6,16 @@
 2.toString
 true.hashCode()
 
+// Standardtypen:
+val int: Int = 900000000
+val long: Long = 9000000000000000000l
+val double: Double = 2.2
+val float: Float = 3.4F
+val bool: Boolean = true
+val char: Char = 'c'
+val byte: Byte = 0xf
+val string: String = "Hallo Welt"
+
 
 // Da alle Wete auch Objekte sind, kennt Scala nur sehr wenig native Operatoren.
 // Stattdessen sind 'normale' Additionsoperatoren wie '+' bei Integers lediglich
