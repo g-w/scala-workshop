@@ -8,7 +8,7 @@ import scala.util.Random
 /** Grundsätzlicher Aufbau */
 
 // Methoden funktionieren in Scala genauso wie in Java. Sie besitzen einen Namen,
-// haben keinen bis mehere Eingabeparameter und keinen oder einen Rückgabewert.
+// haben keinen bis mehrere Eingabeparameter und keinen oder einen Rückgabewert.
 //
 //                             method block
 //                             |
@@ -85,7 +85,7 @@ splitSum(10) {
 // Methode müssen nicht zwangsläufig an Klassen gebunden sein. Methoden können auch innerhalb
 // eines anderen Methodenblocks definiert werden.
 // Als komplexeres Beispiel hier eine Methode zum Summieren von Zahlen, welche innerhalb
-// eine weiter erekursive Methode benutzt.
+// eine weitere rekursive Methode benutzt.
 def recursiveListSum(list: List[Int]) = {
   @tailrec
   def step(sum: Int, elements: List[Int]): Int = {
