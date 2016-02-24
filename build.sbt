@@ -8,7 +8,9 @@ scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq("-Xmax-classfile-name", "128", "-deprecation","-unchecked")
 
-libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.1"
+libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.5"
+
+libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.0.5"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.1.3" % "test"
 
