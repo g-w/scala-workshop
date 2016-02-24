@@ -11,31 +11,30 @@ class FuncSetSpec extends FunSuite {
   val c: Set = singleSet(-150)
 
 
-  test("contains works with a every time true example Set") {
-    val s: Set = x => true
-    assert( contains(s, 4711) === true )
+  test("contains works with custom Set") {
+    val s: Set = x => x == 12
+    assert( contains(s, 12) === true )
+    assert( contains(s, 30) === false )
   }
 
-  test("Set 'a' contains 10") {
-    assert( contains(a, 10) === true)
+  test("A new singleSet contains 10") {
+    val s: Set = singleSet(10)
+    assert( contains(s, 10) === true)
+    assert( contains(s, -5) === false)
   }
 
-  test("Set 'a' does not contain -5") {
-    assert( contains(a, -5) === false)
-  }
-
-  test("union of 'a' and 'b' contains both") {
+  test("union of 'a' and 'b' contains both elements") {
     val s: Set = union(a, b)
     assert( contains(s, 10) === true)
     assert( contains(s, 15) === true)
   }
 
-  test("union of 'a' and 'b' does not contain 'c'") {
+  test("union of 'a' and 'b' does not contains 'c'") {
     val s: Set = union(a, b)
     assert( contains(s, -150) === false)
   }
 
-  test("intersect should only contain the elements, which are in both sets") {
+  test("intersect should only contains the elements, which are in both sets") {
     //(10, 15, 30)
     val s1: Set = union(union(a, b), singleSet(30))
     //(10, 30)
@@ -47,7 +46,7 @@ class FuncSetSpec extends FunSuite {
     assert( contains(s, 30) === true)
   }
 
-  test("diff should only contain the elements, which are not in both sets") {
+  test("diff should only contains the elements, which are not in both sets") {
     //(10, 15, 30)
     val s1: Set = union(union(a, b), singleSet(30))
     //(10, 30)
@@ -70,4 +69,52 @@ class FuncSetSpec extends FunSuite {
     assert( contains(s, 30) === true)
   }
 
+  test("forAll returns true") {
+    // (10, 15, -150)
+    val s1: Set = union(union(a, b), c)
+    val uQuantifier: Int => Boolean = i => i <= 15
+
+    assert( forall(s1, uQuantifier) === true )
+  }
+
+  test("forAll returns false") {
+    // (10, 15, -150)
+    val s1: Set = union(union(a, b), c)
+    val uQuantifier: Int => Boolean = i => i > 14
+
+    assert( forall(s1, uQuantifier) === false )
+  }
+
+  test("exists returns true") {
+    // (10, 15, -150)
+    val s1: Set = union(union(a, b), c)
+    val eQuantifier: Int => Boolean = i => i == 15
+
+    assert( exists(s1, eQuantifier) === true )
+  }
+
+  test("exists returns false") {
+    // (10, 15, -150)
+    val s1: Set = union(union(a, b), c)
+    val eQuantifier: Int => Boolean = i => i == 0
+
+    assert( exists(s1, eQuantifier) === false )
+  }
+
+  test("map transforms every element in the Set") {
+    val s1: Set = union(a, union(b, c))
+    val transform = (i: Int) => i * 2
+
+    val mapped: Set = map(s1, transform)
+
+    assert( contains(mapped, 20) === true)
+    assert( contains(mapped, 30) === true)
+    assert( contains(mapped, -300) === true)
+  }
+
+  test("toString returns a nice string representation of the Set") {
+    val s1: Set = union(a, union(b, c))
+
+    assert( createString(s1) === "{-150, 10, 15}")
+  }
 }
