@@ -1,5 +1,26 @@
 import scala.collection.mutable
 
+/*****************
+ * TUPLES
+ *****************/
+// Tuple sind zusammengesetzte Werte, unterschiedlicher Typen.
+// Anders als bei Sets oder Listen, ist die Reihenfolge und die Anzahl der Werte
+// fest und kann nicht manipuliert werden.
+// Tuples eigenen sich besonders als Hilfskonstrukt, um mehrere Einzelwerte
+// einem Parameter zuzuordnen oder als Rückgabewert bereit zustellen.
+
+val tuple: (Int, String, Double) = (1, "hallo", 3.3)
+val otherTuple = ("hallo", true, List(1, 2, 3))
+
+// Ein Zugriff auf die namenlosen Werte erfolgt über die '_n' Felder.
+// Später werden wir mittels pattern matching eine elegantere Möglichkeit sehen,
+// auf die Werte zuzugreifen.
+println(tuple._1)
+println(tuple._2)
+println(tuple._3)
+
+
+
 /**************
  * Arrays
  *************/
@@ -26,17 +47,22 @@ array.update(1, 43)
 val newArray = Array(1, 2, 3, 4, 5)
 
 
+
 /**************
  * Listen
  *************/
+
+/** Grundlagen und Konkatination */
 // Listen sind der dynamischer Nachbar des Arrays und können beliebig wachsen und auch schrumpfen. Anders
 // als in vielen anderen Sprachen ist die Standardliste in Scala immutable. Das heißt, jede Operation, die
 // ich auf einer Liste vorneme, erzeugt wiederum eine neue Liste
 
 // Listen können auch hier mit einem companion object erzeugt werden.
 val list: List[Int] = List(1, 2, 3, 4, 5, 6)
+
 // Zugriff erlangen wir wieder mit der gekürzt geschriebenen `apply` Methode
 list(4)
+
 // Die Methoden der Liste heißen ein wenig seltsam, sollen aber eher einen Operatorcharakter haben.
 // Daher schreibt man sie auch eher ohne Punkt und Klammern.
 val addList_1 = 0 :: list     // Legt die 0 an den Anfang der neuen Liste
@@ -50,39 +76,62 @@ val concatList = List(-2, -1, 0) ::: list
 val head = list.head  // 1
 val tail = list.tail  // (2, 3, 4, 5, 6)
 
+
+/** Transformationen */
 // Darüber hinaus verfügt List über diverse Transformationsmethoden, die
 // über Lambdaausdrücke gesteuert werden.
 list.filter(i => i > 3)       // Filtert alle Elemente raus, die nicht auf den Filter passen
 list.map(i => i + 2)          // Transformiert jedes Element der Liste
 list.takeWhile(i => i > 4)    // Liefert so lange Elemente von links nach rechts, bis der Lambdaausdruck true ergibt.
-list.foldLeft(0)((sum, element) => sum + element)   // "Klappt" die Liste zusammen
+
+// foldLeft "klappt" die Liste von links nach rechts zusammen. Der erste Parameter bildet den Startwert
+// Der zweite Parameter nimmt eine Funktion mit zwei Parametern entgegen. Der erste ist der Akkumulator, der zweite
+// der aktuelle Wert der Liste
+list.foldLeft(0)( (accumulator, element) => accumulator + element)
+
+// Oder, wenn man etwas fancy unterwegs ist, nimmt man den foldLeft 'Operator' `/:` mit einer kurzen Lambda. ;-)
+(0 /: list)(_ + _)
 
 
-//flatMap
+/** map, flatten und flatMap */
+// Im Fall einer verschachtelten Liste bietet List die Methode `flatten`, welches
+// die inneren Elemente in die obere Liste verschiebt. Das Ergebnis vom Beispiel
+// ist: List(Hallo, Welt, ., Hello, world, .)
 val nestedList = List(List("Hallo", "Welt", "."), List("Hello", "world", "."))
 nestedList.flatten
 
+// Oft kommt die Kombination aus map und flatten vor. In diesem Beispiel transformieren
+// wir jeden inneren Wert zu seiner Länge. Danach wird die Liste geflattet.
+// Beide Methoden werden in `flatMap` vereint.
+// Hat man sich irgendwann mal mit dem Konzept der Monaden beschäftigt, wird man merken
+// das `flatMap` den bind-Operator abbildet.
 val mappedList = nestedList.map(l => l.map(s => s.length))
-mappedList.flatten
+mappedList.flatten    // --> List(5, 4, 1, 5, 5, 1)
 
-nestedList.flatMap(l => l.map(s => s.length))
-// Beside the immutable collections there is a whole package of mutable counterparts.
-// e.g. the mutable ListBuffer
+nestedList.flatMap(l => l.map(s => s.length))   // --> List(5, 4, 1, 5, 5, 1)
+
+
+
+/** Mutable List */
+// Die Scala Collections bieten neben den normalen immutable Klassen auch mutable
+// Alternativen. Für die Liste gibt es daher das ListBuffer Pendant.
 val listBuffer  = mutable.ListBuffer[String]()
 listBuffer += "hallo"
 listBuffer += "welt"
-"!" +=: listBuffer
-println(listBuffer.toList)
 
 
-import scala.collection.mutable
 
 /**************
  * Maps
  **************/
-// Immutable Map
-// Each entry is a Tuple2 with a key and value
-// We can define an entry directly as tuple or with the implicit arrow notation
+// Die standard Map ist wie die List eine immutable Datenstruktur. Auch die Map besitzt ein companion
+// object, mit dem eine neue Map erzeugt werden kann.
+
+// Key Value Paare werden dabei mit der implicit `->` Methode erzeugt. Diese Methode ist in unserem Fall nicht
+// der Klasse String zugeordnet. Stattdessen wird der Key-String implizit in einen neuen Wert vom Typ
+// `ArrowAssoc` umgewandelt, welcher die -> Methode hat. Diese wandelt ein `A -> B` Ausdruck in einen Tuple (A, B)
+// um. Dieses Verfahren nennt sich `implicit conversion`. Java kennt das in rudimentärer Form als Auto(un)boxing.
+// Dadurch ist zum Beispiel auch sowas möglich: `4 + " hallo"`
 val firstMap = Map("one" -> "hallo", "two" -> "welt")
 firstMap("one")
 
@@ -90,23 +139,7 @@ firstMap("one")
 val a_map = firstMap + ("three" -> "foo")
 val b_map = a_map - "three"
 
-// Mutable counterpart
+// Wie auch bei der List, gibt es auch zu der immutable Map ein mutable Pendant aus dem
+// Package scala.collection.mutable
 val mutableMap: mutable.Map[String, Int]  = mutable.Map()
 mutableMap += ("foo" -> 1) += ("bar" -> 2)
-val newMutableMap = mutableMap + ("baz" -> 3)
-
-// Outlook:
-// If you ask how such statements
-//   "key" -> 123, or 1 to 5
-// are possible. These are implicit conversions. Like the autoboxing known from java, scala allows own definitions
-// of these conversions. So in the above example, the String "key" is implicit converted to an object of the class
-// ArrowAssoc of some type A. This object has the '->' method, which takes a value of some type B and returns a
-// tuple of type A, B.
-//
-// For more information how to write your own conversions see section 7.
-
-
-
-
-
-
