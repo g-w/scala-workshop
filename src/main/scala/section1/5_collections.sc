@@ -1,42 +1,61 @@
 import scala.collection.mutable
 
-/****
+/**************
  * Arrays
- ****/
+ *************/
+// Arrays funktionieren vom Prinzip her genauso wie wir sie aus Java kennen, nur dass sie in Scala
+// ein eigenständiges Objekt sind.
+// Zunächst erzeugen wir ein neues Arrayobjekt eines Typs und einer festen Länge.
+
 val array = new Array[Int](10)
+
+// Zugriff erlangen wir anders wie in Java nicht mit eckigen Klammern, sondern mit runden Klammern.
+// Auch hier kennt Scala keinen separaten Zugriffsoperator for Arrays. Stattdessen wird hier die
+// im Objekt liegende `apply` und `update`  Methode aufgerufen. `apply` und `update` sind ein magic names.
+// Wir können diese Methode egal an welchem Objekt statt `instance.apply(34)` direkt mit
+// `instance(34)` aufrufen. Dieses Pattern werden wir desöfteren wiedersehen.
 array(0) = 42
-array(1) = 43
+array.update(1, 43)
+
+// Ein illegaler Zugriff außerhalb des Wertebereichs mündet in einer ArrayIndexOutOfBoundsException
 //array(11) = 44 <- ArrayIndexOutOfBoundsException
 
+// Alternativ kann man auch ein vorausgefülltes Array definieren. Hier bedienen wir uns dem companion
+// objects von Array, welche wir später kennen lernen werden. Kurz gesagt ist es der statische Nachbar der
+// Klasse Array, wiederum mit einer `apply` Methode.
 val newArray = Array(1, 2, 3, 4, 5)
 
 
-/**
- * Lists
- */
-// Immutable Lists - Every following operation in the list returns a new list object
-val list = List(1, 2, 3, 4, 5, 6)
+/**************
+ * Listen
+ *************/
+// Listen sind der dynamischer Nachbar des Arrays und können beliebig wachsen und auch schrumpfen. Anders
+// als in vielen anderen Sprachen ist die Standardliste in Scala immutable. Das heißt, jede Operation, die
+// ich auf einer Liste vorneme, erzeugt wiederum eine neue Liste
+
+// Listen können auch hier mit einem companion object erzeugt werden.
+val list: List[Int] = List(1, 2, 3, 4, 5, 6)
+// Zugriff erlangen wir wieder mit der gekürzt geschriebenen `apply` Methode
 list(4)
+// Die Methoden der Liste heißen ein wenig seltsam, sollen aber eher einen Operatorcharakter haben.
+// Daher schreibt man sie auch eher ohne Punkt und Klammern.
+val addList_1 = 0 :: list     // Legt die 0 an den Anfang der neuen Liste
+val addList_2 = list :+ 7     // Legt die 7 an das Ende der neuen Liste
 
-// List concatenations
-val addList_1 = 0 :: list
-val addList_2 = list :+ 7
+// Mit der ::: Methode lassen sich zwei Listen konkatenieren.
+val concatList = List(-2, -1, 0) ::: list
 
-// Creation
-val emptyList = Nil // or List() as companion object
-val newList = -2 :: -1 :: 0 :: Nil
-val concatList = newList ::: list
+// Ein paar nützliche Methoden sind `head` und `tail`.
+// `head` liefert das erste Element einer Liste. `tail` die Liste ohne das erste Element.
+val head = list.head  // 1
+val tail = list.tail  // (2, 3, 4, 5, 6)
 
-// :: or ::: are prefix operators -- Operator names, which ends with a ':' can switch there parameter. Equivalent to Nil.::(0).::(-1).::(-2)
-// Head, tail
-val head = concatList.head
-val tail = concatList.tail
-
-//Some collection api stuff
-concatList.filter(p => p > 0)
-concatList.map(p => p + 2)
-concatList.mkString(",")
-concatList.foldLeft(0)((sum, element) => sum + element)
+// Darüber hinaus verfügt List über diverse Transformationsmethoden, die
+// über Lambdaausdrücke gesteuert werden.
+list.filter(i => i > 3)       // Filtert alle Elemente raus, die nicht auf den Filter passen
+list.map(i => i + 2)          // Transformiert jedes Element der Liste
+list.takeWhile(i => i > 4)    // Liefert so lange Elemente von links nach rechts, bis der Lambdaausdruck true ergibt.
+list.foldLeft(0)((sum, element) => sum + element)   // "Klappt" die Liste zusammen
 
 
 //flatMap
@@ -58,9 +77,9 @@ println(listBuffer.toList)
 
 import scala.collection.mutable
 
-/****
+/**************
  * Maps
- ****/
+ **************/
 // Immutable Map
 // Each entry is a Tuple2 with a key and value
 // We can define an entry directly as tuple or with the implicit arrow notation
