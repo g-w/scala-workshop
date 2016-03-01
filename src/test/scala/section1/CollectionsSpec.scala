@@ -1,6 +1,5 @@
 package section1
 
-import org.scalacheck.Gen
 import org.scalatest.FunSuite
 
 class CollectionsSpec extends FunSuite {
