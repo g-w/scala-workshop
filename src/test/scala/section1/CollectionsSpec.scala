@@ -47,11 +47,6 @@ class CollectionsSpec extends FunSuite {
     assert(result === Seq("Scala", "is", "fun", "fun", "is", "good"))
   }
 
-//  test("mapToUpper can speak very loud with Map") {
-//    val result = mapToUpper(Map("Hi" -> "there", "hello" -> "world"))
-//    assert(result === Map("HI" -> "THERE", "HELLO" -> "WORLD"))
-//  }
-
   test("wordCounts counts the number of occurrences words from a strings") {
     val result: Map[String, Int] = wordCount(Seq("Programming is fun"))
     assert(result === Map("Programming" -> 1, "is" -> 1, "fun" -> 1))
