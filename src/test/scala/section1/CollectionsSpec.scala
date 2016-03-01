@@ -1,51 +1,68 @@
 package section1
 
+import org.scalacheck.Gen
 import org.scalatest.FunSuite
 
 class CollectionsSpec extends FunSuite {
 
-  // Arrays
+  import Collections._
 
-  test("Section2 can speak very loud") {
-    val result = Collections.loud(Array("Hi", "there"))
-    assert(result === Array("HI", "THERE"))
+  test("toUpper converts every parameter to its upper case representation") {
+    val result = toUpper("Hi", "there", "how", "are", "you")
+    assert(result === Seq("HI", "THERE", "HOW", "ARE", "YOU"))
   }
 
-  test("Section2 concatenates Strings together") {
-    val result = Collections.concatenate(Array("Scala", "is", "fun"))
-    assert(result === "Scala is fun")
+  test("concatenates all elements of the array separated with an empty character") {
+    val result = concatenate(Array("Hi", "there", "how", "are", "you"), ' ')
+    assert(result === "Hi there how are you")
   }
 
-  // Seq and List
-
-  test("Section2 can speak very loud with Seq") {
-    val result = Collections.loud(Seq("Hi", "there"))
-    assert(result === Seq("HI", "THERE"))
+  test("concatenates all elements of the array separated with a dot character") {
+    val result = concatenate(Array("Hi", "there", "how", "are", "you"), '.')
+    assert(result === "Hi.there.how.are.you")
   }
 
-  test("Section2 extract words from list from Strings") {
-    val result = Collections.extractWords(Seq("Scala is fun", "fun is good"))
+  test("sum returns the sum of all elements") {
+    val result = sum(List(3, 4, -7))
+    assert(result === 0)
+  }
+
+  test("fold sums all elements with a sum function") {
+    val result = fold(List(2, 5, 8, 10), (x, y) => x + y)
+    assert(result === 25)
+  }
+
+  test("fold calculates the product of all elements") {
+    val result = fold(List(2, 5, 8), (x, y) => x * y)
+    assert(result === 80)
+  }
+
+  test("fold calculates a sum with a maximum of 9") {
+    val result = fold(List(2, 5, 8, 10), (x, y) => (x + y) % 10)
+    assert(result === 5)
+  }
+
+  test("`extractWords` extract words from a list of Strings") {
+    val result = extractWords(Seq("Scala is fun", "fun is good"))
     assert(result === Seq("Scala", "is", "fun", "fun", "is", "good"))
   }
 
-  // Map
+//  test("mapToUpper can speak very loud with Map") {
+//    val result = mapToUpper(Map("Hi" -> "there", "hello" -> "world"))
+//    assert(result === Map("HI" -> "THERE", "HELLO" -> "WORLD"))
+//  }
 
-  test("Section2 can speak very loud with Map") {
-    val result = Collections.loud(Map("Hi" -> "there", "hello" -> "world"))
-    assert(result === Map("HI" -> "THERE", "HELLO" -> "WORLD"))
+  test("wordCounts counts the number of occurrences words from a strings") {
+    val result: Map[String, Int] = wordCount(Seq("Programming is fun"))
+    assert(result === Map("Programming" -> 1, "is" -> 1, "fun" -> 1))
   }
 
-  test("Section2 counts number of occurrences of words") {
-    val result = Collections.counts(Seq("Scala is fun", "Scala is even more is", "fun is more", "more is less"))
-    assert(result === Map("is" -> 5, "more" -> 3, "less" -> 1, "Scala" -> 2, "even" -> 1, "fun" -> 2))
-  }
+  test("wordCounts counts the number of occurrences of words from many strings") {
+    val result: Map[String, Int] = wordCount(
+      Seq("Programming is fun", "Programming is even more of it", "fun is more", "more is less")
+    )
 
-  test("Section2 can remember which character was tried for which word") {
-    assert(Collections.isCharacterAlreadyTried(2, 'c') === false)
-    Collections.addTriedCharacter(2, 'c')
-    assert(Collections.isCharacterAlreadyTried(2, 'c') === true)
-    assert(Collections.isCharacterAlreadyTried(2, 'a') === false)
-    assert(Collections.isCharacterAlreadyTried(1, 'c') === false)
+    assert(result === Map("is" -> 4, "less" -> 1, "it" -> 1, "even" -> 1, "fun" -> 2, "more" -> 3, "Programming" -> 2, "of" -> 1))
   }
 
 }
