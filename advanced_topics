@@ -1,0 +1,11 @@
+# Values
+  - Lazy vals
+
+# Methods
+  - Call by name vs. call by value
+
+# Functions
+  - Currying
+  - Getting the 'function' of the 'method' (val a = sum _)
+  - function composition
+
