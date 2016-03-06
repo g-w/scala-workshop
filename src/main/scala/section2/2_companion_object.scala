@@ -7,26 +7,16 @@ package section2
 // Möchte man nun ein statisches Element für alle Instanzen einer Klasse einführen,
 // so bietet Scala die Möglichkeit eines companion objects.
 // Hat ein object denselben Namen wie eine class, so hängen diese beiden Elemente
-// zusammen. So kann eine Instanz einer class auf die private member eines objects
+// logisch zusammen. So kann eine Instanz einer class auf die private member eines objects
 // zugreifen und umgekehrt.
 
 /**
+  * Eine normale Klasse, mit zwei privaten Methoden.
   *
   * @param colour
   * @param age
   */
 class Car(var colour: String, age: Int) {
-  private var fuel: Double = 40
-
-  def drive(km : Int) = {
-    fuel = fuel - (km / 100 * 5.5)
-  }
-
-  def refuel(liter: Double) = {
-    require(liter + fuel <= 40, "Tank zu voll")
-    fuel = fuel + liter
-  }
-
   /**
     * Diese Methode ist `private` und lässt dieses Auto
     * mit einem anderen Auto zusammenstoßen.
