@@ -4,9 +4,7 @@ case object Male extends Gender
 case object Female extends Gender
 case class User(name: String, surname: String, age: Int, gender: Gender)
 
-/****
- * Sequence pattern
- */
+/** Sequence pattern */
 List(1, 2, 3, 4) match {
   case List(first, _, _) => println("Three item list with first element" + first)
 
@@ -14,18 +12,14 @@ List(1, 2, 3, 4) match {
   case List(first, _*) =>  println("Large list with first: " + first)
 }
 
-/****
- * Tuple patterns
- */
+/** Tuple patterns */
 (1, 2, 3) match {
   case (_, _, 2) => println("_, _, 2")
   case (_, 2, 4) => println("_, 2, 4")
   case (1, _, _) => println("1, _, _")
 }
 
-/****
- * Typed patterns
- */
+/** Typed patterns */
 val male: Option[Gender] = Some(Male)
 val female: Option[Gender] = Some(Female)
 val nothing: Option[Gender] = None
@@ -67,9 +61,7 @@ isIntCollection(Map("x" -> "y"))
 // http://code.stephenmorley.org/articles/java-generics-type-erasure/
 isIntCollection(Array("hallo"))
 
-/****
- * Variable binding
- */
+/** Variable binding */
 // How we can get this list out of the Option in one step?
 Some(List(1, 2)) match {
   case Some(List(_, _)) => true
@@ -79,9 +71,7 @@ Some(List(1, 2)) match {
   case Some(l @ List(_, _)) => println(l.head)
 }
 
-/****
- * Pattern guards
- */
+/** Pattern guards */
 // We can adding some guards to a case clause
 User("Hans", "Meier", 19, Male) match {
   case User(_, _, age, Male) if age > 18 => println("Adult male")

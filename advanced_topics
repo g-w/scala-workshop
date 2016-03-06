@@ -9,3 +9,7 @@
   - Getting the 'function' of the 'method' (val a = sum _)
   - function composition
 
+# Pattern matching
+  - sealed classes
+
+
