@@ -60,6 +60,8 @@ describe2(Unit)   // Something else
   case someVar => println(someVar)
 }
 
+
+
 /** Constructor pattern mit case classes */
 // Case classes haben neben ihren vordefinierten Methoden noch einen sehr praktischen Vorteil.
 // Sie können direkt in einem Machtingausdruck als Pattern benutzt werden.
