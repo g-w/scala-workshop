@@ -77,7 +77,9 @@ val martina = User("Martina", "Musterfrau", 16, Female)
 
 // Mittels des Constructor Patterns können wir Instanzen von case classes direkt auf den
 // Ausdruck ihrer Erzeugung matchen. Dadurch lassen sich vielfältige Möglichkeiten für
-// Fallunterscheidungen bewerkstelligen. Hier ein paar Beispiele:
+// Fallunterscheidungen bewerkstelligen. Der Nachteil des Constructor Patterns ist, wenn sich der Konstruktor ändert,
+// zum Beispiel ein neuer Parameter dazu kommt, müssen auch sämtliche Pattern matchings angepasst werden.
+// Hier ein paar Beispiele:
 def users(user: User) = user match {
   // Match auf einen User mit einem beliebigen Namen, den wir mit dem variable Pattern in die Variable
   // `name` schreiben. Der Nachname muss auf die Konstante `Mustermann` passen. Das Alter ist uns egal.

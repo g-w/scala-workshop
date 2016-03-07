@@ -1,8 +1,4 @@
 import scala.Predef._
-abstract class Gender
-case object Male extends Gender
-case object Female extends Gender
-case class User(name: String, surname: String, age: Int, gender: Gender)
 
 /** Sequence pattern */
 List(1, 2, 3, 4) match {
@@ -12,30 +8,36 @@ List(1, 2, 3, 4) match {
   case List(first, _*) =>  println("Large list with first: " + first)
 }
 
+
+
 /** Tuple patterns */
+// Tuples können ähnlich wie case classes über ein Konstruktor pattern gematched werden:
 (1, 2, 3) match {
   case (_, _, 2) => println("_, _, 2")
   case (_, 2, 4) => println("_, 2, 4")
   case (1, _, _) => println("1, _, _")
 }
 
+
+
 /** Typed patterns */
-val male: Option[Gender] = Some(Male)
-val female: Option[Gender] = Some(Female)
-val nothing: Option[Gender] = None
-
-def optionMatcher(x: Option[Any]) = x match {
-  case Some(gender) => gender match {
-    case str : String => println("A String with value: " + str)
-    case gend : Gender => println("A Gender with value: " + gend)
-  }
-  case None => println("Nothing!")
+// Typed patterns ermöglichen es, anhand des Datentyps zu filtern.
+// `typeMatcher` arbeitet mit einem Value vom Typ `Any`. Im Matchingblock überprüfen wir nun den
+// eigentlichen Typ des Values. Die Syntax ist hier wie bei einer Variablendeklaration. Also
+// `name`: `type`. Alternativ kann als name auch das Wildcardzeichen benutzt werden, wenn uns nur der
+// Typ interessiert:
+def typeMatcher(x: Any) = x match {
+  case theString: String => println("A String with value: " + theString)
+  case theInt: Int => println("An Integer with value: " + theInt)
+  case _: Boolean => println("A Boolean value")
+  case _ => println("Something other")
 }
+typeMatcher("Hallo")
+typeMatcher(43)
+typeMatcher(true)
+typeMatcher(34.5)
 
-optionMatcher(male)
-optionMatcher(female)
-optionMatcher(nothing)
-optionMatcher(Some("hallo"))
+
 
 // WARNING for TYPE ERASURES!!!
 // As in Java there are NO generic information at runtime!
@@ -46,8 +48,6 @@ def isIntCollection(x: Any) = x match {
   case a: Array[Int] => true
   case _ => false
 }
-
-
 // So this example will return true!
 // An equal java example:
 // http://docs.oracle.com/javase/tutorial/java/generics/bridgeMethods.html
@@ -72,13 +72,11 @@ Some(List(1, 2)) match {
 }
 
 /** Pattern guards */
-// We can adding some guards to a case clause
-User("Hans", "Meier", 19, Male) match {
-  case User(_, _, age, Male) if age > 18 => println("Adult male")
-  case User(_, _, _, Male) => println("childish male")
-}
-
-
+//// We can adding some guards to a case clause
+//User("Hans", "Meier", 19, Male) match {
+//  case User(_, _, age, Male) if age > 18 => println("Adult male")
+//  case User(_, _, _, Male) => println("childish male")
+//}
 
 
 
