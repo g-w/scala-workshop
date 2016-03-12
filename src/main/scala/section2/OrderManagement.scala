@@ -51,9 +51,9 @@ object OrderManagement {
     val creditCard2 = CreditCard("0987654321", DateTime.parse("2015-10-01"))
 
     /**
-      * This is the base repository. It is immutable and only an example for our tests.
+      * Das ist das eigentliche "Repository". welches wir als Basis für unsere Tests heranziehen.
       */
-    val repository = Map(
+    val repository: Map[Int, Order] = Map(
       1 -> Order(1, DateTime.parse("2015-10-01"), DebitCard("1234567"), List(LineItem(chips, 5), LineItem(beerBox, 2))),
       2 -> Order(2, DateTime.parse("2015-12-26"), creditCard1, List(LineItem(apple, 3), LineItem(milk, 1))),
       3 -> Order(3, DateTime.parse("2015-09-13"), DebitCard("54321"), List(LineItem(chips, 5))),
@@ -62,16 +62,18 @@ object OrderManagement {
     )
 
     /**
-      * The repo has a method t find an order by its Id. It returns an `Option` of an `Order`.
-      * So, if the id exists, the method will return a `Some` with the found order.
-      * If the id does not exist, the method will return a `None`.
+      * Das Repository hat diese Methode, um eine Bestullung zu finden. Sie gibt dabei ein
+      * `Option` von `Order` zurück. Existiert also eine Bestellung anhand der `id`,
+      * so wird ein `Some` mit der gefundenen Bestellung zurück gegeben. Ist die `id` unbekannt,
+      * so wird ein `None` zurück gegeben.
+      *
       * @param id
       * @return
       */
     def findOrder(id: Int): Option[Order] = repository.get(id)
 
     /**
-      * Returns a list of all `Order`s in the repository.
+      * Gibt eine Liste aller Bestellungen in diesem Repository zurück.
       * @return
       */
     def findAll(): List[Order] = repository.values.toList
@@ -102,13 +104,16 @@ object OrderManagement {
     * mal absichtlich.
     *
     * @param orderId
-    * @return
+    * @return Ein Some[Double], wenn eine Order existiert, oder ein None, wenn anhand der `orderId` keine
+    *         Bestellung ermittelt werden konnte.
     */
   def orderPrice(orderId: Int): Option[Double] = ???
 
   /**
     * Berechnet den Wert des Weihnachtsgeschäft. Zum Weihnachtsgeschäft zählen alle Bestellungen die
-    * vom 01.12.2015 bis einschließlich 24.12.2015 getätigt wurden.
+    * vom 01.12.2015 bis einschließlich 24.12.2015 getätigt wurden. Im Projekt ist die `JodaTime`
+    * Bibliothek eingebunen, die für die Datumsberechnung herangezogen werden kann.
+    *
     * @return
     */
   def christmasBusiness(): Double = ???
