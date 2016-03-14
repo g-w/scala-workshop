@@ -1,6 +1,9 @@
 package section1
 
+// `HelloWorld` ist ein `object`. Ein statisches Singleton-Element in Scala.
 object HelloWorld {
+
+  // Da wir auf der JVM sind, ist unser zentraler Einstiegspunkt die `main`-Methode.
   def main (args: Array[String]) {
 
     // Args ist ein Array von Strings.
