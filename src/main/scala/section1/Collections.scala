@@ -3,60 +3,61 @@ package section1
 object Collections {
 
   /**
-    * Converts every repeated parameter to its upper case representation
-    * and returns them in a Sequence of Strings.
-    *
-    * @param input The repeated parameter is also a `Seq[String]`.
-    * @return `Seq` ist the base class of Array or List.
-    */
-  def toUpper(input: String*): Seq[String] = ???
+   * Converts every repeated parameter to its upper case representation
+   * and returns them in a Sequence of Strings.
+   *
+   * @param input The repeated parameter is also a `Seq[String]`.
+   * @return `Seq` ist the base class of Array or List.
+   */
+  def toUpper(input: String*): Seq[String] = input.map(str => str.toUpperCase)
 
   /**
-    * Concatenates every String in the parameter array with the
-    * separator character.
-    *
-    * @param input
-    * @param separator
-    * @return The concatenated String
-    */
-  def concatenate(input: Array[String], separator: Char): String = ???
+   * Concatenates every String in the parameter array with the
+   * separator character.
+   *
+   * @param input
+   * @param separator
+   * @return The concatenated String
+   */
+  def concatenate(input: Array[String], separator: Char): String = input.mkString(separator.toString)
 
   /**
-    * Sums all integers of the `values` list.
-    *
-    * @param values
-    * @return
-    */
-  def sum(values: List[Int]): Int = ???
+   * Sums all integers of the `values` list.
+   *
+   * @param values
+   * @return
+   */
+  def sum(values: List[Int]): Int = values.foldLeft(0)((result, b) => result + b)
 
   /**
-    * `fold` takes a list of integers and a concatenation function, so that
-    * all elements are fold together to one resulting integer. e.g.:
-    * A List(2, 4, 8) and a function (a, b) => a + b should result in 2 + 4 + 8 = 14:
-    *
-    * @param values
-    * @param concat
-    * @return
-    */
-  def fold(values: List[Int], concat: (Int, Int) => Int): Int = ???
+   * `fold` takes a list of integers and a concatenation function, so that
+   * all elements are fold together to one resulting integer. e.g.:
+   * A List(2, 4, 8) and a function (a, b) => a + b should result in 2 + 4 + 8 = 14:
+   *
+   * @param values
+   * @param concat
+   * @return
+   */
+  def fold(values: List[Int], concat: (Int, Int) => Int): Int = values.tail.fold(values.head)(concat)
 
   /**
-    * Extracts the words from a sequence of strings. e.g.:
-    * `Seq("Hello world", "Hello friend")` results in `Seq("Hello", "world", "Hello", "friend")`
-    *
-    * @param strings
-    * @return
-    */
-  def extractWords(strings: Seq[String]): Seq[String] = ???
+   * Extracts the words from a sequence of strings. e.g.:
+   * `Seq("Hello world", "Hello friend")` results in `Seq("Hello", "world", "Hello", "friend")`
+   *
+   * @param strings
+   * @return
+   */
+  def extractWords(strings: Seq[String]): Seq[String] = strings.flatMap(string => string.split(" "))
 
   /**
-    * Counts the words of all strings in the `strings` sequence. e.g:
-    * `Seq("Hello world", "Hello friend")` results in `Map("Hello" -> 2, "world" -> 1, "friend" -> 1)`
-    *
-    * Hint: Sequence has the `groupBy` method.
-    *
-    * @param strings
-    * @return
-    */
-  def wordCount(strings: Seq[String]): Map[String, Int] = ???
+   * Counts the words of all strings in the `strings` sequence. e.g:
+   * `Seq("Hello world", "Hello friend")` results in `Map("Hello" -> 2, "world" -> 1, "friend" -> 1)`
+   *
+   * Hint: Sequence has the `groupBy` method.
+   *
+   * @param strings
+   * @return
+   */
+  def wordCount(strings: Seq[String]): Map[String, Int] = extractWords(strings)
+    .foldLeft(Map[String, Int]().withDefaultValue(0))((map, word) => map + (word -> (map(word)  + 1)))
 }
